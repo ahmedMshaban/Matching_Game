@@ -1,0 +1,89 @@
+<!doctype html> 
+<html>
+	<head>    
+		<title>Matching Game</title>
+		<style>
+			img {
+				position:absolute;
+				height:100px;
+			}
+			#leftside {
+				position: absolute;
+				float:left;
+				width:50%;
+				height:500px;
+			}
+			
+			#rightside {
+				position:absolute;
+				width:50%; 
+				height:500px;
+				left:675px;
+				border-left: 1px solid black;
+			}
+		</style>
+				 
+	</head>   
+	<body>
+		<h1>Matching Game</h1> 
+		<p>Click on the extra smiling face on the left.</p>
+		<div id="leftside"></div>
+		<div id="rightside"></div>
+		
+		<script>
+			var numberOfFaces = 5;
+			var theLeftSide = document.getElementById("leftside");
+			var theRightSide = document.getElementById("rightside");
+			function generateFaces() {
+				var top_position ;
+				var left_position ;
+				var random_number;
+				
+				for(var i=0; i < numberOfFaces; i++){
+                var theImg = document.createElement("img");
+                theImg.src = "http://home.cse.ust.hk/~rossiter/mooc/matching_game/smile.png";
+				random_number = Math.random() *400;        
+				random_number = Math.floor(random_number);
+				theImg.style.top =random_number + "px";
+				random_number = Math.random() *400;        
+				random_number = Math.floor(random_number);	     
+				theImg.style.left =random_number + "px"; 
+				theLeftSide.appendChild(theImg);
+			}
+				
+			leftSideImages = theLeftSide.cloneNode(true);
+			leftSideImages.removeChild(leftSideImages.lastChild);
+			theRightSide.appendChild(leftSideImages);
+			
+			theLeftSide.lastChild.onclick = nextLevel;
+			};
+			
+			generateFaces();	
+
+            var theBody = document.getElementsByTagName("body")[0];
+
+            theBody.onclick = function gameOver() {
+                alert("Game Over!");
+
+                theBody.onclick = null;
+                theLeftSide.lastChild.onclick = null;
+            };
+
+            function nextLevel(event){
+			// remove child nodes
+			while (theLeftSide.firstChild){
+			theLeftSide.removeChild(theLeftSide.firstChild);
+			}
+
+			while (theRightSide.firstChild){
+				theRightSide.removeChild(theRightSide.firstChild);
+			}
+			
+			 // new nodes
+			event.stopPropagation();
+			numberOfFaces += 5;
+			generateFaces();
+			};				      
+		</script>	
+	</body> 
+</html>
